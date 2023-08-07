@@ -2,7 +2,7 @@ const typography = {
   fonts: {
     heading: 'Futura PT, sans-serif',
     body: 'Futura PT, sans-serif',
-    mono: 'Futura PT, sans-serif',
+    mono: 'Work Sans, sans-serif',
   },
   fontSizes: {
     xs: '0.75rem',

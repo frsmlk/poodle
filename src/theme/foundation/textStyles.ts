@@ -34,6 +34,11 @@ const textStyles: TextStyles = {
     fontSize: '0.875rem',
     lineHeight: '1.122rem',
   },
+  LabelInput: {
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    letterSpacing: '0.031rem',
+  },
   BodyLarge: {
     fontSize: '1.125rem',
     lineHeight: '1.5rem',

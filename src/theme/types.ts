@@ -5,6 +5,7 @@ export enum TextStyle {
   H4 = 'H4',
   Label = 'Label',
   LabelSmall = 'LabelSmall',
+  LabelInput = 'LabelInput',
   BodyLarge = 'BodyLarge',
   BodyRegular = 'BodyRegular',
   BodySmall = 'BodySmall',

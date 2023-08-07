@@ -4,6 +4,7 @@ import {
   withDefaultColorScheme,
 } from '@chakra-ui/react';
 import foundation from './foundation';
+import components from './components';
 
 const config: ThemeConfig = {
   initialColorMode: 'light', // light, dark or system
@@ -13,6 +14,7 @@ const config: ThemeConfig = {
 const overrides = {
   config,
   ...foundation,
+  components,
 };
 
 export const customTheme = extendTheme(
