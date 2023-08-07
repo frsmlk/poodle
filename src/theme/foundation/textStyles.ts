@@ -4,6 +4,7 @@ type TextStyleValue = {
   fontSize: string | string[];
   lineHeight?: string | string[];
   letterSpacing?: string | string[];
+  fontFamily?: string;
 };
 
 type TextStyles = Record<TextStyle, TextStyleValue>;
@@ -36,14 +37,17 @@ const textStyles: TextStyles = {
   BodyLarge: {
     fontSize: '1.125rem',
     lineHeight: '1.5rem',
+    fontFamily: 'Work Sans, sans-serif',
   },
   BodyRegular: {
     fontSize: '1rem',
     lineHeight: '1.5rem',
+    fontFamily: 'Work Sans, sans-serif',
   },
   BodySmall: {
     fontSize: '0.875rem',
     lineHeight: '1.375rem',
+    fontFamily: 'Work Sans, sans-serif',
   },
 };
 
