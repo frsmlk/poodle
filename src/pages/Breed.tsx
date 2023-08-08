@@ -1,15 +1,16 @@
-import { Button, Flex, Image, Stack, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Stack, Tag, Text } from '@chakra-ui/react';
+import { doc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useDocument } from 'react-firebase-hooks/firestore';
+import { useNavigate } from 'react-router-dom';
+import CheckIcon from '../assets/icons/check.svg';
+import RemoveIcon from '../assets/icons/RemoveIcon';
+import CustomInput from '../components/CustomInput';
+import { auth, db } from '../firebase';
+import useToast from '../hooks/useToast';
 import { getAllBreedNames } from '../services/dog.service';
 import { TextStyle } from '../theme/types';
-import CheckIcon from '../assets/icons/check.svg';
-import RemoveIcon from '../assets/icons/remove.svg';
-import CustomInput from '../components/CustomInput';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import useToast from '../hooks/useToast';
-import { useNavigate } from 'react-router-dom';
 
 const Breed = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
@@ -17,11 +18,12 @@ const Breed = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredBreeds, setFilteredBreeds] = useState(breeds);
   const [user] = useAuthState(auth);
+  const [value, loading] = useDocument(doc(db, 'users', user?.uid!!));
   const { errorToast, successToast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const request = async () => {
+    const fetchAlBreedNames = async () => {
       const response = await getAllBreedNames();
       if (response.success) {
         setBreeds(response.data!!);
@@ -29,26 +31,15 @@ const Breed = () => {
       }
     };
 
-    request();
+    fetchAlBreedNames();
   }, []);
 
   useEffect(() => {
-    // Get existing favourite breeds
-
-    const request = async () => {
-      const docRef = doc(db, 'users', user?.uid!!);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setSelectedBreeds(data?.favouriteBreeds || []);
-      } else {
-        console.log('No such document!');
-      }
-    };
-
-    request();
-  }, []);
+    if (!loading && value) {
+      const data = value.data();
+      setSelectedBreeds(data?.favouriteBreeds || []);
+    }
+  }, [loading, value]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -163,7 +154,7 @@ const Breed = () => {
                 const isSelected = selectedBreeds.includes(breed);
 
                 return (
-                  <Flex justify='space-between'>
+                  <Flex justify='space-between' key={index}>
                     <Flex gap={2}>
                       <Text
                         textTransform='capitalize'
@@ -180,11 +171,12 @@ const Breed = () => {
                       )}
                     </Flex>
                     {isSelected && (
-                      <Image
-                        src={RemoveIcon}
+                      <Box
                         cursor='pointer'
                         onClick={() => handleBreedSelect(breed)}
-                      />
+                      >
+                        <RemoveIcon width={24} height={24} color='#D94F14' />
+                      </Box>
                     )}
                   </Flex>
                 );

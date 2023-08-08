@@ -26,3 +26,34 @@ export const getAllBreedNames = async () => {
     };
   }
 };
+
+export const getRandomImagesOfUsersFavouriteBreeds = async (
+  breeds: string[]
+) => {
+  try {
+    const requests = await Promise.all(
+      breeds.map(async (breed) => {
+        const split = breed.split('-');
+        let endpoint = `https://dog.ceo/api/breed/${split[0]}${
+          split[1] ? `/${split[1]}` : ''
+        }/images/random`;
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        return {
+          breed,
+          image: data.message,
+        };
+      })
+    );
+
+    return {
+      success: true,
+      data: requests,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
