@@ -1,16 +1,17 @@
-import { Button, Image, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Image, Stack, Text } from '@chakra-ui/react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
-import { TextStyle } from '../theme/types';
-import CustomInput from '../components/CustomInput';
 import LoadingIcon from '../assets/icons/hourglass.svg';
+import CustomInput from '../components/CustomInput';
+import { auth, db } from '../firebase';
 import useToast from '../hooks/useToast';
+import { TextStyle } from '../theme/types';
 
 interface IErrors {
   email?: string;
@@ -88,7 +89,19 @@ const Authorization = () => {
     }
 
     try {
-      await template.submitFunction(auth, input.email, input.password);
+      const request = await template.submitFunction(
+        auth,
+        input.email,
+        input.password
+      );
+
+      if (mode === 'sign-up') {
+        await setDoc(doc(db, 'users', request.user.uid), {
+          email: request.user.email,
+          favouriteBreeds: [],
+        });
+      }
+
       successToast({
         description: `Welcome to Poodle`,
       });
@@ -101,7 +114,9 @@ const Authorization = () => {
 
   return (
     <Stack gap={12} align='center'>
-      <Text textStyle={TextStyle.H1}>{template.title}</Text>
+      <Box p={50}>
+        <Text textStyle={TextStyle.H1}>{template.title}</Text>
+      </Box>
       <form onSubmit={handleSubmit}>
         <Stack gap={8} minW='420px'>
           <CustomInput

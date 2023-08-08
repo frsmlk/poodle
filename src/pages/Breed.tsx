@@ -5,23 +5,52 @@ import { TextStyle } from '../theme/types';
 import CheckIcon from '../assets/icons/check.svg';
 import RemoveIcon from '../assets/icons/remove.svg';
 import CustomInput from '../components/CustomInput';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import useToast from '../hooks/useToast';
+import { useNavigate } from 'react-router-dom';
 
 const Breed = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredBreeds, setFilteredBreeds] = useState(breeds);
+  const [user] = useAuthState(auth);
+  const { errorToast, successToast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const request = async () => {
       const response = await getAllBreedNames();
-      if (response.success) setBreeds(response.data!!);
+      if (response.success) {
+        setBreeds(response.data!!);
+        setFilteredBreeds(response.data!!);
+      }
     };
 
     request();
   }, []);
 
-  const handleSearch = (e) => {
+  useEffect(() => {
+    // Get existing favourite breeds
+
+    const request = async () => {
+      const docRef = doc(db, 'users', user?.uid!!);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setSelectedBreeds(data?.favouriteBreeds || []);
+      } else {
+        console.log('No such document!');
+      }
+    };
+
+    request();
+  }, []);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     const result = breeds.filter((breed) =>
       breed.toLowerCase().includes(e.target.value.toLowerCase())
@@ -45,6 +74,19 @@ const Breed = () => {
     setSelectedBreeds(state);
   };
 
+  const saveBreeds = async () => {
+    try {
+      const request = doc(db, 'users', user?.uid!!);
+      await updateDoc(request, { favouriteBreeds: selectedBreeds });
+      successToast({ description: 'Favourite breeds saved successfully!' });
+      navigate('/feed');
+    } catch (error) {
+      errorToast({
+        description: error.message,
+      });
+    }
+  };
+
   const isButtonDisabled = selectedBreeds.length < 3;
 
   const breedsDisplay = Array(3)
@@ -53,7 +95,7 @@ const Breed = () => {
 
   return (
     <Stack gap={12} align='center'>
-      <Stack gap={4} textAlign='center'>
+      <Stack gap={4} textAlign='center' p={50}>
         <Text textStyle={TextStyle.H1}>Select your favourite breeds</Text>
         <Text textStyle={TextStyle.BodyLarge}>Choose up to 3 breeds</Text>
       </Stack>
@@ -152,7 +194,7 @@ const Breed = () => {
               <Button variant='ghost' onClick={() => setSelectedBreeds([])}>
                 Clear selection
               </Button>
-              <Button isDisabled={isButtonDisabled}>
+              <Button isDisabled={isButtonDisabled} onClick={saveBreeds}>
                 {isButtonDisabled
                   ? `Choose ${3 - selectedBreeds.length} more`
                   : 'View feed'}
