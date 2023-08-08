@@ -1,4 +1,4 @@
-import { Button, Stack, Text, useToast } from '@chakra-ui/react';
+import { Button, Image, Stack, Text } from '@chakra-ui/react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,6 +9,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { TextStyle } from '../theme/types';
 import CustomInput from './CustomInput';
+import LoadingIcon from '../assets/icons/hourglass.svg';
+import useToast from '../hooks/useToast';
 
 interface IErrors {
   email?: string;
@@ -25,10 +27,10 @@ const useMode = () => {
 const Authorization = () => {
   const [input, setInput] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<IErrors>({});
-  const toast = useToast();
   const mode = useMode();
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const navigate = useNavigate();
+  const { successToast, errorToast } = useToast();
 
   if (user) navigate('/breed');
 
@@ -83,19 +85,12 @@ const Authorization = () => {
 
     try {
       await template.submitFunction(auth, input.email, input.password);
-      toast({
-        title: `Welcome to Poodle`,
-        duration: 5000,
-        isClosable: true,
-        status: 'success',
+      successToast({
+        description: `Welcome to Poodle`,
       });
     } catch (error) {
-      toast({
-        title: 'Something went wrong',
+      errorToast({
         description: error.message,
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
       });
     }
   };
@@ -132,7 +127,7 @@ const Authorization = () => {
             isDisabled={!input.email || !input.password}
             size='lg'
           >
-            {template.buttonText}
+            {loading ? <Image src={LoadingIcon} /> : template.buttonText}
           </Button>
         </Stack>
       </form>
