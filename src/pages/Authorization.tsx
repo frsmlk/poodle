@@ -3,12 +3,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { TextStyle } from '../theme/types';
-import CustomInput from './CustomInput';
+import CustomInput from '../components/CustomInput';
 import LoadingIcon from '../assets/icons/hourglass.svg';
 import useToast from '../hooks/useToast';
 
@@ -33,6 +33,10 @@ const Authorization = () => {
   const { successToast, errorToast } = useToast();
 
   if (user) navigate('/breed');
+
+  useEffect(() => {
+    setInput({ email: '', password: '' });
+  }, [mode]);
 
   const templates = {
     'sign-up': {

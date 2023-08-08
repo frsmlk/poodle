@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import Authorization from './components/Authorization';
+import Authorization from './pages/Authorization';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import Breed from './pages/Breed';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           path='/breed'
           element={
             <ProtectedRoute>
-              <h1>Redirected</h1>
+              <Breed />
             </ProtectedRoute>
           }
         />
