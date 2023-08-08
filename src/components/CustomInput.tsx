@@ -1,25 +1,57 @@
 import {
   Box,
-  Button,
+  Text,
   FormControl,
+  FormErrorMessage,
+  FormHelperText,
   Image,
   Input,
   InputGroup,
-  InputProps,
   InputRightElement,
-  Text,
 } from '@chakra-ui/react';
 import { TextStyle } from '../theme/types';
 import { useState } from 'react';
 import EyeIcon from '../assets/icons/eye.svg';
 import EyeOffIcon from '../assets/icons/eye-off.svg';
 
-const CustomInput = ({ ...props }: InputProps) => {
+interface ICustomInputProps {
+  isError?: boolean;
+  helperText?: string;
+  errorText?: string;
+  name?: string;
+  type?: string;
+  [prop: string]: any;
+}
+
+const TogglePasswordIcon = ({
+  show,
+  toggle,
+}: {
+  show: boolean;
+  toggle: () => void;
+}) => (
+  <InputRightElement mt='9px' mr='10px'>
+    <Image
+      onClick={toggle}
+      cursor='pointer'
+      src={show ? EyeIcon : EyeOffIcon}
+    />
+  </InputRightElement>
+);
+
+const CustomInput = (props: ICustomInputProps) => {
+  const { isError, helperText, errorText, name, type, ...otherProps } = props;
+
   const [show, setShow] = useState(false);
+
+  const handleToggle = () => setShow((prevShow) => !prevShow);
+
+  const isPasswordField = name === 'password';
+  const inputType = isPasswordField ? (show ? 'text' : 'password') : type;
 
   return (
     <Box pos='relative'>
-      <FormControl isRequired colorScheme='primary'>
+      <FormControl isInvalid={isError} isRequired colorScheme='primary'>
         <InputGroup>
           <Input
             bg='white'
@@ -28,27 +60,35 @@ const CustomInput = ({ ...props }: InputProps) => {
             p='16px'
             borderWidth='1px'
             borderColor='gray.300'
-            boxSizing='border-box'
             _hover={{ borderColor: 'primary.400' }}
-            _focus={{
-              borderColor: 'primary.600',
-              shadow: 'null',
-              borderWidth: '1.5px',
-              outline: 'none',
-            }}
-            {...props}
-            type={show ? 'text' : 'password'}
+            _focus={{ borderColor: 'primary.600', borderWidth: '1.5px' }}
+            _invalid={{ borderColor: '#D94F14' }}
+            type={inputType}
+            {...otherProps}
           />
-          {props.name === 'password' && (
-            <InputRightElement mt='9px' mr='10px'>
-              <Image
-                onClick={() => setShow(!show)}
-                cursor='pointer'
-                src={show ? EyeIcon : EyeOffIcon}
-              />
-            </InputRightElement>
+          {isPasswordField && (
+            <TogglePasswordIcon show={show} toggle={handleToggle} />
           )}
         </InputGroup>
+        {isError ? (
+          <FormErrorMessage
+            textStyle={TextStyle.BodySmall}
+            p={2}
+            color='#D94F14'
+          >
+            {errorText}
+          </FormErrorMessage>
+        ) : (
+          helperText && (
+            <FormHelperText
+              textStyle={TextStyle.BodySmall}
+              p={2}
+              color='rgb(0,0,0,0.3)'
+            >
+              {helperText}
+            </FormHelperText>
+          )
+        )}
       </FormControl>
       <Text
         textStyle={TextStyle.LabelInput}
@@ -56,17 +96,14 @@ const CustomInput = ({ ...props }: InputProps) => {
         transform='translate(15px,-40%) scale(0.8)'
         p='0 4px'
         bg='blue.50'
-        transformOrigin='top left'
         transition='all .2s ease-out'
-        color='black'
-        pointerEvents='none'
         pos='absolute'
         w='fit-content'
         h='fit-content'
         zIndex='5'
         textTransform='capitalize'
       >
-        {props.name}
+        {name}
       </Text>
     </Box>
   );

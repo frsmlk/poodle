@@ -1,14 +1,21 @@
 import { Route, Routes } from 'react-router-dom';
-import SignUp from './components/Auth/SignUp';
+import Authorization from './components/Authorization';
 import Layout from './components/Layout';
-import SignIn from './components/Auth/SignIn';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <Layout>
       <Routes>
-        <Route path='/' element={<SignIn />} />
-        <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/' element={<Authorization />} />
+        <Route
+          path='/breed'
+          element={
+            <ProtectedRoute>
+              <h1>Redirected</h1>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Layout>
   );
