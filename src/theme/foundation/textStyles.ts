@@ -5,6 +5,7 @@ type TextStyleValue = {
   lineHeight?: string | string[];
   letterSpacing?: string | string[];
   fontFamily?: string;
+  fontWeight?: string;
 };
 
 type TextStyles = Record<TextStyle, TextStyleValue>;
@@ -13,14 +14,17 @@ const textStyles: TextStyles = {
   H1: {
     fontSize: '2rem',
     lineHeight: '2.5rem',
+    fontWeight: '500',
   },
   H2: {
     fontSize: '1.5rem',
     lineHeight: '2.25rem',
+    fontWeight: '500',
   },
   H3: {
     fontSize: '1.25rem',
     lineHeight: '2rem',
+    fontWeight: '500',
   },
   H4: {
     fontSize: '1.25rem',
