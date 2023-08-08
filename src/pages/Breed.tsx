@@ -4,10 +4,13 @@ import { getAllBreedNames } from '../services/dog.service';
 import { TextStyle } from '../theme/types';
 import CheckIcon from '../assets/icons/check.svg';
 import RemoveIcon from '../assets/icons/remove.svg';
+import CustomInput from '../components/CustomInput';
 
 const Breed = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredBreeds, setFilteredBreeds] = useState(breeds);
 
   useEffect(() => {
     const request = async () => {
@@ -17,6 +20,14 @@ const Breed = () => {
 
     request();
   }, []);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    const result = breeds.filter((breed) =>
+      breed.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setFilteredBreeds(result);
+  };
 
   const handleBreedSelect = (breed: string) => {
     const state = [...selectedBreeds];
@@ -48,7 +59,7 @@ const Breed = () => {
       </Stack>
       <Flex gap={12} pb='50px'>
         <Stack gap={4} minW='420px'>
-          {breeds.map((breed: string) => {
+          {filteredBreeds.map((breed: string) => {
             const split = breed.split('-');
             const isSelected = selectedBreeds.includes(breed);
             return (
@@ -57,10 +68,9 @@ const Breed = () => {
                 borderWidth={1}
                 borderColor='gray.300'
                 p={3}
-                bg='white'
                 borderRadius={8}
                 onClick={() => handleBreedSelect(breed)}
-                bg={isSelected ? 'primary.400' : 'whiteAlpha.900'}
+                bg={isSelected ? 'primary.400' : 'white'}
                 align='center'
                 justify='space-between'
                 cursor='pointer'
@@ -90,6 +100,12 @@ const Breed = () => {
           })}
         </Stack>
         <Stack gap={4} position='sticky' top='20%' h='100%'>
+          <CustomInput
+            name='search'
+            onChange={handleSearch}
+            value={searchTerm}
+            placeholder='Search breed'
+          />
           <Stack
             minW='300px'
             p={3}

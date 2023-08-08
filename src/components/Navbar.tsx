@@ -5,10 +5,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import useToast from '../hooks/useToast';
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
+  const { successToast } = useToast();
 
   return (
     <Flex p={4} justify='space-between'>
@@ -19,7 +21,15 @@ const Navbar = () => {
         </Text>
       </Flex>
       {user ? (
-        <Button variant='solid' onClick={() => signOut(auth)}>
+        <Button
+          variant='solid'
+          onClick={() => {
+            signOut(auth);
+            successToast({
+              description: 'You have successfully signed out!',
+            });
+          }}
+        >
           Sign out
         </Button>
       ) : (

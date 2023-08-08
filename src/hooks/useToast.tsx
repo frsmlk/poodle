@@ -25,7 +25,7 @@ const useToast = () => {
       toast({
         title: title || 'Success',
         description: description,
-        position: 'bottom',
+        position: 'top',
         status: 'success',
         duration: duration,
         isClosable: true,
@@ -60,7 +60,7 @@ const useToast = () => {
       toast({
         title: title || 'Ops!',
         description: description,
-        position: 'bottom',
+        position: 'top',
         status: 'error',
         duration: duration,
         isClosable: true,

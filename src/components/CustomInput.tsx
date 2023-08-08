@@ -13,6 +13,7 @@ import { TextStyle } from '../theme/types';
 import { useState } from 'react';
 import EyeIcon from '../assets/icons/eye.svg';
 import EyeOffIcon from '../assets/icons/eye-off.svg';
+import SearchIcon from '../assets/icons/search.svg';
 
 interface ICustomInputProps {
   isError?: boolean;
@@ -47,6 +48,7 @@ const CustomInput = (props: ICustomInputProps) => {
   const handleToggle = () => setShow((prevShow) => !prevShow);
 
   const isPasswordField = name === 'password';
+  const isSearchField = name === 'search';
   const inputType = isPasswordField ? (show ? 'text' : 'password') : type;
 
   return (
@@ -68,6 +70,11 @@ const CustomInput = (props: ICustomInputProps) => {
           />
           {isPasswordField && (
             <TogglePasswordIcon show={show} toggle={handleToggle} />
+          )}
+          {isSearchField && (
+            <InputRightElement mt='9px' mr='10px'>
+              <Image src={SearchIcon} />
+            </InputRightElement>
           )}
         </InputGroup>
         {isError ? (
