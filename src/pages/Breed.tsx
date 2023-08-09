@@ -150,12 +150,15 @@ const Breed = () => {
           bg={['green.800', 'green.800', 'transparent']}
           borderTopRadius={8}
         >
-          <CustomInput
-            name='search'
-            onChange={handleSearch}
-            value={searchTerm}
-            placeholder='Search breed'
-          />
+          <Box display={['none', 'none', 'block']}>
+            <CustomInput
+              name='search'
+              onChange={handleSearch}
+              value={searchTerm}
+              placeholder='Search breed'
+            />
+          </Box>
+
           <Stack
             minW={['100%', '100%', '300px']}
             bg='white'
