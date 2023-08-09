@@ -50,6 +50,11 @@ const Feed = () => {
     if (userLoading) return;
     const fetchRandomImages = async () => {
       const favouriteBreeds = userData?.data()?.favouriteBreeds || [];
+      if (favouriteBreeds.length < 3) {
+        errorToast({
+          description: 'Select at least 3 breeds to see images!',
+        });
+      }
       const response = await getRandomImagesOfUsersFavouriteBreeds(
         favouriteBreeds
       );
@@ -133,7 +138,7 @@ const Feed = () => {
       </Flex>
       <Stack gap={4}>
         <Button variant='ghost' onClick={() => navigate('/breed')}>
-          Change Favourite Breeds
+          Change favourite breeds
         </Button>
         <Button
           onClick={() => {
