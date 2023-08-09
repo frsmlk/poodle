@@ -142,7 +142,9 @@ const Authorization = () => {
           <CustomInput
             name='password'
             type='password'
-            placeholder='Create your password'
+            placeholder={
+              mode === 'sign-up' ? 'Create a password' : 'Enter your password'
+            }
             value={input.password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setInput({ ...input, password: e.target.value })

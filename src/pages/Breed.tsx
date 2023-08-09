@@ -60,7 +60,10 @@ const Breed = () => {
       return;
     }
 
-    if (state.length === 3) return;
+    if (state.length === 3) {
+      errorToast({ description: 'You can only select 3 breeds!' });
+      return;
+    }
 
     state.push(breed);
     setSelectedBreeds(state);
