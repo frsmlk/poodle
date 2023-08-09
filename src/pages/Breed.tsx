@@ -86,12 +86,19 @@ const Breed = () => {
 
   return (
     <Stack gap={12} align='center'>
-      <Stack gap={4} textAlign='center' p={50}>
+      <Stack gap={4} textAlign='center' py={50}>
         <Text textStyle={TextStyle.H1}>Select your favourite breeds</Text>
         <Text textStyle={TextStyle.BodyLarge}>Choose up to 3 breeds</Text>
       </Stack>
-      <Flex gap={12} pb='50px'>
-        <Stack gap={4} minW='420px'>
+      <Flex
+        gap={12}
+        pb='50px'
+        flexDir={['column-reverse', 'column-reverse', 'row']}
+        w='100%'
+        align={['center', 'center', 'flex-start']}
+        justify='center'
+      >
+        <Stack gap={4} minW={['100%', '100%', '420px']}>
           {filteredBreeds.map((breed: string) => {
             const split = breed.split('-');
             const isSelected = selectedBreeds.includes(breed);
@@ -103,7 +110,7 @@ const Breed = () => {
                 p={3}
                 borderRadius={8}
                 onClick={() => handleBreedSelect(breed)}
-                bg={isSelected ? 'primary.400' : 'white'}
+                bg={isSelected ? 'primary.600' : 'white'}
                 align='center'
                 justify='space-between'
                 cursor='pointer'
@@ -132,7 +139,17 @@ const Breed = () => {
             );
           })}
         </Stack>
-        <Stack gap={4} position='sticky' top='20%' h='100%'>
+        <Stack
+          gap={4}
+          position={['fixed', 'fixed', 'sticky']}
+          top={[null, null, '20%']}
+          bottom={[0, 0, null]}
+          h={[null, null, '100%']}
+          w={['100%', '100%', '300px']}
+          p={[4, 4, 0]}
+          bg={['green.800', 'green.800', 'transparent']}
+          borderTopRadius={8}
+        >
           <CustomInput
             name='search'
             onChange={handleSearch}
@@ -140,7 +157,8 @@ const Breed = () => {
             placeholder='Search breed'
           />
           <Stack
-            minW='300px'
+            minW={['100%', '100%', '300px']}
+            bg='white'
             p={3}
             borderWidth={1}
             borderColor='gray.300'

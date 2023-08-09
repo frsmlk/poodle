@@ -86,8 +86,8 @@ const Feed = () => {
   };
 
   return (
-    <Stack gap={12} align='center'>
-      <Stack p={50} gap={8} align='center'>
+    <Stack gap={12} align='center' pb={50}>
+      <Stack py={50} gap={8} align='center'>
         <Text textStyle={TextStyle.H1}>Your favourite breeds</Text>
         <Flex gap={2} align='center'>
           {randomImages.map((breed) => {
@@ -100,7 +100,7 @@ const Feed = () => {
           })}
         </Flex>
       </Stack>
-      <Flex gap={8} wrap='wrap'>
+      <Flex gap={8} wrap='wrap' justify='center'>
         {randomImages.map((breed) => {
           const split = breed.breed.split('-');
           const isLiked = likedImages.includes(breed.image);
@@ -114,8 +114,13 @@ const Feed = () => {
               borderWidth={1}
               gap={0}
             >
-              <Image w='300px' h='250px' objectFit='cover' src={breed.image} />
-              <Flex p={3} bg='green.600' justify='space-between' align='center'>
+              <Image
+                w={['300px', '300px', '275px']}
+                h='250px'
+                objectFit='cover'
+                src={breed.image}
+              />
+              <Flex p={3} bg='green.800' justify='space-between' align='center'>
                 <Stack>
                   <Text textStyle={TextStyle.H3} textTransform='capitalize'>
                     {split[0]} {split[1] && `(${split[1]})`}

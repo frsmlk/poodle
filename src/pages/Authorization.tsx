@@ -114,11 +114,21 @@ const Authorization = () => {
 
   return (
     <Stack gap={12} align='center'>
-      <Box p={50}>
-        <Text textStyle={TextStyle.H1}>{template.title}</Text>
+      <Box py={50}>
+        <Text textStyle={TextStyle.H1} textAlign='center'>
+          {template.title}
+        </Text>
       </Box>
-      <form onSubmit={handleSubmit}>
-        <Stack gap={8} minW='420px'>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Stack gap={8} minW={['100%', '100%', '420px']}>
           <CustomInput
             name='email'
             placeholder='Enter your email'

@@ -10,7 +10,7 @@ const Layout = ({ children }: ILayout) => {
   return (
     <Stack gap={5} mx='auto' maxW='1000px'>
       <Navbar />
-      <Stack>{children}</Stack>
+      <Stack px={4}>{children}</Stack>
     </Stack>
   );
 };

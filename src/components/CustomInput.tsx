@@ -100,15 +100,16 @@ const CustomInput = (props: ICustomInputProps) => {
       <Text
         textStyle={TextStyle.LabelInput}
         top='0%'
-        transform='translate(15px,-40%) scale(0.8)'
+        transform='translate(15px,-46%) scale(0.8)'
         p='0 4px'
-        bg='blue.50'
+        bg='white'
         transition='all .2s ease-out'
         pos='absolute'
         w='fit-content'
         h='fit-content'
         zIndex='5'
         textTransform='capitalize'
+        borderRadius={8}
       >
         {name}
       </Text>
