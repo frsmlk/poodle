@@ -150,6 +150,8 @@ const Breed = () => {
           p={[4, 4, 0]}
           bg={['green.800', 'green.800', 'transparent']}
           borderTopRadius={8}
+          borderWidth={[2, 2, 0]}
+          borderColor='black'
         >
           <Box display={['none', 'none', 'block']}>
             <CustomInput
@@ -162,13 +164,13 @@ const Breed = () => {
 
           <Stack
             minW={['100%', '100%', '300px']}
-            bg='white'
-            p={3}
-            borderWidth={1}
+            bg={['transparent', 'transparent', 'white']}
+            p={[0, 0, 3]}
+            borderWidth={[0, 0, 1]}
             borderColor='gray.300'
             borderRadius='8'
             gap={5}
-            boxShadow='2px 2px 0px 0px rgba(0, 0, 0, 1)'
+            boxShadow={['none', 'none', '2px 2px 0px 0px rgba(0, 0, 0, 1)']}
           >
             <Stack>
               {breedsDisplay.map((breed, index) => {
@@ -182,7 +184,11 @@ const Breed = () => {
                         textTransform='capitalize'
                         textStyle={TextStyle.BodyRegular}
                         fontWeight={500}
-                        color={isSelected ? 'black' : 'gray.400'}
+                        color={
+                          isSelected
+                            ? 'black'
+                            : ['gray.600', 'gray.600', 'gray.400']
+                        }
                       >
                         {index + 1}. {split[0]}
                       </Text>
