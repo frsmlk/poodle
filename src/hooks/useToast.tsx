@@ -1,10 +1,4 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Text,
-  useToast as useToastUI,
-} from '@chakra-ui/react';
+import { Flex, Image, Text, useToast as useToastUI } from '@chakra-ui/react';
 import { useCallback } from 'react';
 import CheckIcon from '../assets/icons/check.svg';
 import RemoveIcon from '../assets/icons/remove.svg';
