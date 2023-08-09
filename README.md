@@ -1,27 +1,47 @@
-# React + TypeScript + Vite
+# Poodle - A Dog Breed App 🐶
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Discover various dog breeds, find your favorites, and explore the world of our furry friends.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Authenticate and manage user sessions.
+- Fetch and display a list of dog breeds.
+- Allow users to like and manage their favorite breeds.
 
-## Expanding the ESLint configuration
+## Installation Guide
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. Clone the repository
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+git  clone  https://github.com/frsmlk/poodle.git
+cd  dog-breed-app
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 2. Install dependencies
+
+Using npm:
+
+```bash
+npm  install
+```
+
+### 3. Setup Firebase Configuration
+
+- Navigate to your Firebase Console.
+- Set up Firebase Authentication and Firestore.
+- In the Project Settings, find the "Your apps" card. This section has your app's Firebase SDK configuration details.
+
+### 4. Environment Variables Setup
+
+- Rename `.env.example` to `.env`.
+- Populate the `.env` with your Firebase SDK details
+
+```bash
+VITE_REACT_APP_FIREBASE_API_KEY=your_api_key_here VITE_REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain_here VITE_REACT_APP_FIREBASE_PROJECT_ID=your_project_id_here ... # And so on
+```
+
+### 5. Run the Application
+
+```bash
+npm run dev
+```
