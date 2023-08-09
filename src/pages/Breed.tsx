@@ -11,6 +11,7 @@ import { auth, db } from '../firebase';
 import useToast from '../hooks/useToast';
 import { getAllBreedNames } from '../services/dog.service';
 import { TextStyle } from '../theme/types';
+import RightIcon from '../assets/icons/RightIcon';
 
 const Breed = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
@@ -207,7 +208,15 @@ const Breed = () => {
               <Button variant='ghost' onClick={() => setSelectedBreeds([])}>
                 Clear selection
               </Button>
-              <Button isDisabled={isButtonDisabled} onClick={saveBreeds}>
+              <Button
+                isDisabled={isButtonDisabled}
+                onClick={saveBreeds}
+                rightIcon={
+                  !isButtonDisabled ? (
+                    <RightIcon width={24} height={24} color='black' />
+                  ) : undefined
+                }
+              >
                 {isButtonDisabled
                   ? `Choose ${3 - selectedBreeds.length} more`
                   : 'View feed'}
