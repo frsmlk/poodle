@@ -14,7 +14,7 @@ Discover various dog breeds, find your favorites, and explore the world of our f
 
 ```bash
 git  clone  https://github.com/frsmlk/poodle.git
-cd  dog-breed-app
+cd  poodle
 ```
 
 ### 2. Install dependencies
